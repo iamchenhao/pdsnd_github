@@ -231,7 +231,7 @@ def view_raw(df):
         if view_raw_input in ['yes', 'y']:
             print(df.iloc[i:i+5, :])
             i += 5
-            view_raw_input = input(subsequent_prompt, expected_list)
+            view_raw_input = input_check(subsequent_prompt, expected_list)
             continue
 
 
