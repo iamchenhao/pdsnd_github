@@ -7,6 +7,22 @@ CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
 
+# Define function to get and check user input
+def input_check(input_message, expect_list):
+    """Ask user to input a value and check the input."""
+    while True:
+        try:
+            input_value = input(input_message).lower()
+        except (ValueError, KeyboardInterrupt):
+            print('An error occurred')
+        if input_value in expect_list:
+            print('You have chosen {}.\n'.format(input_value.title()))
+            break
+        else:
+            print('Sorry, not an appropriate choice, please try again.\n')
+            continue
+    return input_value
+
 def get_filters():
     """
     Asks user to specify a city, month, and day to analyze.
@@ -18,22 +34,6 @@ def get_filters():
         (str) filter_scope - the scope of time filter (by month, day, both, or no filter)
     """
     print('Hello! Let\'s explore some US bikeshare data!')
-
-    # Define function to get and check user input
-    def input_check(input_message, expect_list):
-        """Ask user to input a value and check the input."""
-        while True:
-            try:
-                input_value = input(input_message).lower()
-            except (ValueError, KeyboardInterrupt):
-                print('An error occurred')
-            if input_value in expect_list:
-                print('You have chosen {}.\n'.format(input_value.title()))
-                break
-            else:
-                print('Sorry, not an appropriate choice, please try again.\n')
-                continue
-        return input_value
 
     # Set user input messages & expected input
     input_city_txt = 'Would you like to see data for Chicago, New York City, or Washington?'
