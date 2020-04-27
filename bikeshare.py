@@ -220,18 +220,18 @@ def user_stats(df, city):
 
 def view_raw(df):
     """Print raw data if user specify so."""
+    first_prompt = '\nWould you like to view individual trip data? Type\'yes\' or \'no\''
+    subsequent_prompt = '\nWould you like to view more individual trip data? Type\'yes\' or \'no\''
+    expected_list = ['yes', 'y', 'no', 'n']
     i = 0
-    view_raw_input = input('\nWould you like to view individual trip data? Type\'yes\' or \'no\'').lower()
+    view_raw_input = input_check(first_prompt, expected_list)
     while True:
-        if view_raw_input not in ['yes', 'y', 'no', 'n']:
-            view_raw_input = input('Sorry, not an appropriate choice, please type in \'yes\' or \'no\'').lower()
-            continue
-        elif view_raw_input in ['no', 'n']:
+        if view_raw_input in ['no', 'n']:
             break
-        elif view_raw_input in ['yes', 'y']:
+        if view_raw_input in ['yes', 'y']:
             print(df.iloc[i:i+5, :])
             i += 5
-            view_raw_input = input('\nWould you like to view more individual trip data? Type\'yes\' or \'no\'').lower()
+            view_raw_input = input(subsequent_prompt, expected_list)
             continue
 
 
