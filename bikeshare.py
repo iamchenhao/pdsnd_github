@@ -7,6 +7,22 @@ CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
 
+# Define function to get and check user input
+def input_check(input_message, expect_list):
+    """Ask user to input a value and check the input."""
+    while True:
+        try:
+            input_value = input(input_message).lower()
+        except (ValueError, KeyboardInterrupt):
+            print('An error occurred')
+        if input_value in expect_list:
+            print('You have chosen {}.\n'.format(input_value.title()))
+            break
+        else:
+            print('Sorry, not an appropriate choice, please try again.\n')
+            continue
+    return input_value
+
 def get_filters():
     """
     Asks user to specify a city, month, and day to analyze.
@@ -18,22 +34,6 @@ def get_filters():
         (str) filter_scope - the scope of time filter (by month, day, both, or no filter)
     """
     print('Hello! Let\'s explore some US bikeshare data!')
-
-    # Define function to get and check user input
-    def input_check(input_message, expect_list):
-        """Ask user to input a value and check the input."""
-        while True:
-            try:
-                input_value = input(input_message).lower()
-            except (ValueError, KeyboardInterrupt):
-                print('An error occurred')
-            if input_value in expect_list:
-                print('You have chosen {}.\n'.format(input_value.title()))
-                break
-            else:
-                print('Sorry, not an appropriate choice, please try again.\n')
-                continue
-        return input_value
 
     # Set user input messages & expected input
     input_city_txt = 'Would you like to see data for Chicago, New York City, or Washington?'
@@ -220,18 +220,18 @@ def user_stats(df, city):
 
 def view_raw(df):
     """Print raw data if user specify so."""
+    first_prompt = '\nWould you like to view individual trip data? Type\'yes\' or \'no\''
+    subsequent_prompt = '\nWould you like to view more individual trip data? Type\'yes\' or \'no\''
+    expected_list = ['yes', 'y', 'no', 'n']
     i = 0
-    view_raw_input = input('\nWould you like to view individual trip data? Type\'yes\' or \'no\'').lower()
+    view_raw_input = input_check(first_prompt, expected_list)
     while True:
-        if view_raw_input not in ['yes', 'y', 'no', 'n']:
-            view_raw_input = input('Sorry, not an appropriate choice, please type in \'yes\' or \'no\'').lower()
-            continue
-        elif view_raw_input in ['no', 'n']:
+        if view_raw_input in ['no', 'n']:
             break
-        elif view_raw_input in ['yes', 'y']:
+        if view_raw_input in ['yes', 'y']:
             print(df.iloc[i:i+5, :])
             i += 5
-            view_raw_input = input('\nWould you like to view more individual trip data? Type\'yes\' or \'no\'').lower()
+            view_raw_input = input_check(subsequent_prompt, expected_list)
             continue
 
 
